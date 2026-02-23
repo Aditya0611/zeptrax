@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Bot, Cpu, Shield, Cloud, Blocks, Zap } from "lucide-react";
+import zeptraxLogo from "@/assets/zeptrax-logo.png";
 
 const Hero = () => {
   return (
@@ -50,12 +51,15 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl md:text-7xl font-bold font-display mb-4">
-            <span className="text-gradient-brand">Zeptrax AI</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-2 font-display tracking-wider">
-            www.zeptraxai.com
-          </p>
+          <img src={zeptraxLogo} alt="Zeptrax AI" className="h-20 md:h-28 w-auto mx-auto mb-6" />
+          <a
+            href="https://www.zeptraxai.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-xl md:text-2xl text-muted-foreground mb-2 font-display tracking-wider hover:text-primary transition-colors"
+          >
+            🌐 www.zeptraxai.com
+          </a>
           <p className="text-2xl md:text-4xl font-display mt-6 mb-4 text-foreground">
             AI Training for <span className="text-gradient-gold">All Domains</span>
           </p>

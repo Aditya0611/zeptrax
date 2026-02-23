@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
-import { Bot, Cloud, Shield, Cpu } from "lucide-react";
+import { Bot, Cloud, Shield, Cpu, Link2 } from "lucide-react";
 
 const services = [
   {
     icon: Bot,
-    title: "AI Agent & Automation",
-    desc: "Build intelligent agents that automate workflows, handle customer interactions, and make decisions autonomously. From RPA to cognitive automation.",
-    features: ["Autonomous AI Agents", "Process Automation", "Intelligent Workflows", "Decision Systems"],
+    title: "AI Automation",
+    desc: "Build intelligent AI-powered automation that streamlines workflows, handles customer interactions, and makes decisions autonomously. From RPA to cognitive automation.",
+    features: ["AI-Powered RPA", "Process Automation", "Intelligent Workflows", "Decision Systems"],
   },
   {
     icon: Cloud,
@@ -15,10 +15,16 @@ const services = [
     features: ["AWS SageMaker", "Azure AI", "Google Vertex AI", "MLOps Pipelines"],
   },
   {
+    icon: Link2,
+    title: "AI with Blockchain",
+    desc: "Combine AI with blockchain for decentralized intelligence, smart contract automation, and tamper-proof AI decision systems.",
+    features: ["Smart Contracts AI", "Decentralized AI", "NFT Analytics", "DeFi Automation"],
+  },
+  {
     icon: Shield,
-    title: "AI with Blockchain & Cyber Security",
-    desc: "Leverage AI for threat detection, anomaly analysis, and blockchain-powered secure data sharing. Build tamper-proof AI systems.",
-    features: ["Threat Detection", "Anomaly Analysis", "Decentralized AI", "Zero-Trust Security"],
+    title: "AI with Cyber Security",
+    desc: "Leverage AI for advanced threat detection, anomaly analysis, vulnerability assessment, and zero-trust security architecture.",
+    features: ["Threat Detection", "Anomaly Analysis", "Vulnerability AI", "Zero-Trust Security"],
   },
   {
     icon: Cpu,

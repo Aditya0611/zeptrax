@@ -93,11 +93,11 @@ const Hero = () => {
         <div className="mt-16 flex justify-center gap-8 flex-wrap">
           {[
             { icon: Bot, label: "AI Agents" },
-            { icon: Cloud, label: "Cloud AI" },
-            { icon: Shield, label: "Cyber Security" },
-            { icon: Blocks, label: "Blockchain" },
-            { icon: Cpu, label: "Automation" },
-            { icon: Zap, label: "Edge AI" },
+            { icon: Cloud, label: "AI with Cloud" },
+            { icon: Shield, label: "AI with Cyber Security" },
+            { icon: Blocks, label: "AI with Blockchain" },
+            { icon: Cpu, label: "AI Automation" },
+            { icon: Zap, label: "Gen AI & LLMs" },
           ].map((item, i) => (
             <motion.div
               key={item.label}

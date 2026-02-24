@@ -18,12 +18,12 @@ const BannerSection = () => {
             className="w-full h-auto object-contain"
             animate={{
               scale: [1, 1.04, 1],
+              rotate: 0,
             }}
             transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
+              scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
             }}
+            style={{ rotate: 0 }}
           />
         </motion.div>
       </div>

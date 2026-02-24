@@ -17,15 +17,14 @@ const BannerSection = () => {
             alt="Zeptrax AI - Empowering Businesses with Secure, Scalable & Future-Ready Solutions"
             className="w-full h-full object-cover"
             animate={{
-              scale: [1, 1.08, 1],
-              rotate: [0, 360],
+              scale: [1, 1.06, 1],
             }}
             transition={{
-              scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-              rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
             }}
           />
-          {/* Pulsing glow overlay */}
           <motion.div
             className="absolute inset-0 rounded-full border-2 border-primary/30"
             animate={{

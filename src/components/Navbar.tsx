@@ -13,6 +13,7 @@ const Navbar = () => {
     { href: "/#services", label: "Services" },
     { href: "/#partners", label: "Partners" },
     { href: "/register", label: "Register" },
+    { href: "https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t", label: "Contact Us", external: true },
   ];
 
   return (
@@ -28,17 +29,29 @@ const Navbar = () => {
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-6">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              to={l.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                location.pathname === l.href ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) =>
+            l.external ? (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
+              >
+                {l.label}
+              </a>
+            ) : (
+              <Link
+                key={l.href}
+                to={l.href}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  location.pathname === l.href ? "text-primary" : "text-muted-foreground"
+                }`}
+              >
+                {l.label}
+              </Link>
+            )
+          )}
           <Link
             to="/register"
             className="px-5 py-2 rounded-lg bg-gradient-cta text-primary-foreground text-sm font-semibold glow-blue hover:scale-105 transition-transform"
@@ -54,16 +67,29 @@ const Navbar = () => {
 
       {open && (
         <div className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border px-4 py-4 space-y-3">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              to={l.href}
-              onClick={() => setOpen(false)}
-              className="block text-sm font-medium text-muted-foreground hover:text-primary"
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) =>
+            l.external ? (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="block text-sm font-medium text-muted-foreground hover:text-primary"
+              >
+                {l.label}
+              </a>
+            ) : (
+              <Link
+                key={l.href}
+                to={l.href}
+                onClick={() => setOpen(false)}
+                className="block text-sm font-medium text-muted-foreground hover:text-primary"
+              >
+                {l.label}
+              </Link>
+            )
+          )}
         </div>
       )}
     </nav>

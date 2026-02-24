@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Bot, Cloud, Shield, Cpu, Link2 } from "lucide-react";
+import { Bot, Cloud, Shield, Cpu, Link2, Globe } from "lucide-react";
 
 const services = [
   {
@@ -31,6 +31,12 @@ const services = [
     title: "Generative AI & LLMs",
     desc: "Master large language models, prompt engineering, fine-tuning, and building production-ready GenAI applications.",
     features: ["LLM Fine-Tuning", "Prompt Engineering", "RAG Systems", "Multi-Modal AI"],
+  },
+  {
+    icon: Globe,
+    title: "AI-Based Applications & Websites",
+    desc: "Build intelligent web applications and websites powered by AI. From smart dashboards to AI-driven customer portals and automated content platforms.",
+    features: ["AI Web Apps", "Smart Dashboards", "AI Chatbots", "Content Automation"],
   },
 ];
 

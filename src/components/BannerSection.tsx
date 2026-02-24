@@ -10,31 +10,20 @@ const BannerSection = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="rounded-full overflow-hidden glow-blue w-[280px] h-[280px] md:w-[400px] md:h-[400px] relative"
+          className="rounded-2xl overflow-hidden glow-blue max-w-4xl w-full relative"
         >
           <motion.img
             src={zeptrax3dWorld}
             alt="Zeptrax AI - Empowering Businesses with Secure, Scalable & Future-Ready Solutions"
-            className="w-full h-full object-cover"
+            className="w-full h-auto object-contain"
             animate={{
-              scale: [1, 1.06, 1],
+              scale: [1, 1.04, 1],
             }}
             transition={{
               duration: 4,
               repeat: Infinity,
               ease: "easeInOut",
             }}
-          />
-          <motion.div
-            className="absolute inset-0 rounded-full border-2 border-primary/30"
-            animate={{
-              boxShadow: [
-                "0 0 20px hsl(var(--primary) / 0.2)",
-                "0 0 60px hsl(var(--primary) / 0.4)",
-                "0 0 20px hsl(var(--primary) / 0.2)",
-              ],
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           />
         </motion.div>
       </div>

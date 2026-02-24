@@ -3,19 +3,19 @@ import { motion } from "framer-motion";
 const partners = [
   {
     name: "Microsoft",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/512px-Microsoft_logo.svg.png",
+    logo: "https://img.icons8.com/fluency/240/microsoft.png",
   },
   {
     name: "Snowflake",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Snowflake_Logo.svg/512px-Snowflake_Logo.svg.png",
+    logo: "https://cdn.worldvectorlogo.com/logos/snowflake.svg",
   },
   {
     name: "AWS",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/512px-Amazon_Web_Services_Logo.svg.png",
+    logo: "https://img.icons8.com/color/240/amazon-web-services.png",
   },
   {
     name: "Google Cloud",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Google_Cloud_logo.svg/512px-Google_Cloud_logo.svg.png",
+    logo: "https://img.icons8.com/color/240/google-cloud.png",
   },
 ];
 
@@ -50,7 +50,7 @@ const PartnersSection = () => {
               <img
                 src={partner.logo}
                 alt={partner.name}
-                className="h-10 md:h-14 w-auto object-contain brightness-0 invert opacity-80 hover:opacity-100 transition-opacity"
+                className="h-10 md:h-14 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
               />
             </motion.div>
           ))}

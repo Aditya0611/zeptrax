@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import zeptraxBanner from "@/assets/zeptrax-banner.jpeg";
+import zeptrax3dWorld from "@/assets/zeptrax-3d-world.jpeg";
 
 const BannerSection = () => {
   return (
@@ -13,8 +13,8 @@ const BannerSection = () => {
           className="rounded-2xl overflow-hidden glow-blue"
         >
           <img
-            src={zeptraxBanner}
-            alt="Zeptrax AI - AI Implementation Across All Industries"
+            src={zeptrax3dWorld}
+            alt="Zeptrax AI - Empowering Businesses with Secure, Scalable & Future-Ready Solutions"
             className="w-full h-auto object-cover"
           />
         </motion.div>

@@ -116,7 +116,7 @@ const PricingSection = () => {
               </ul>
 
               <a
-                href="https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t"
+                href={tier.price === "Custom" ? "https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t" : "upi://pay?pa=9354992890@ptyes&pn=Zeptrax%20AI&am=" + (tier.name === "Foundation" ? "9999" : "19999") + "&cu=INR&tn=" + encodeURIComponent(tier.name + " Program")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`block w-full text-center py-3 rounded-xl font-semibold transition-all duration-300 ${
@@ -125,7 +125,7 @@ const PricingSection = () => {
                     : "border border-primary/30 text-primary hover:bg-primary/10"
                 }`}
               >
-                {tier.price === "Custom" ? "Contact Us" : "Enroll Now"}
+                {tier.price === "Custom" ? "Contact Us" : "Pay Now"}
               </a>
             </motion.div>
           ))}

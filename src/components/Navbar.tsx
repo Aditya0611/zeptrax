@@ -9,10 +9,6 @@ const Navbar = () => {
 
   const links = [
     { href: "/", label: "Home" },
-    { href: "/#domains", label: "Domains" },
-    { href: "/#services", label: "Services" },
-    { href: "/#partners", label: "Partners" },
-    { href: "/register", label: "Register" },
     { href: "https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t", label: "Contact Us", external: true },
   ];
 
@@ -52,12 +48,6 @@ const Navbar = () => {
               </Link>
             )
           )}
-          <Link
-            to="/register"
-            className="px-5 py-2 rounded-lg bg-gradient-cta text-primary-foreground text-sm font-semibold glow-blue hover:scale-105 transition-transform"
-          >
-            Enroll Now
-          </Link>
         </div>
 
         <button onClick={() => setOpen(!open)} className="md:hidden text-foreground">

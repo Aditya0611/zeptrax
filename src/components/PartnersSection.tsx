@@ -7,7 +7,7 @@ const partners = [
   },
   {
     name: "Snowflake",
-    logo: "https://cdn.worldvectorlogo.com/logos/snowflake.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/f/ff/Snowflake_Logo.svg",
   },
   {
     name: "AWS",

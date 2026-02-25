@@ -119,13 +119,13 @@ const PricingSection = () => {
                 href={tier.price === "Custom" ? "https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t" : "upi://pay?pa=9354992890@ptyes&pn=Zeptrax%20AI&am=" + (tier.name === "Foundation" ? "9999" : "19999") + "&cu=INR&tn=" + encodeURIComponent(tier.name + " Program")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`block w-full text-center py-3 rounded-xl font-semibold transition-all duration-300 ${
+                className={`block w-full text-center py-3 rounded-xl font-semibold transition-all duration-300 whitespace-nowrap ${
                   tier.highlight
                     ? "bg-primary text-primary-foreground hover:bg-primary/90"
                     : "border border-primary/30 text-primary hover:bg-primary/10"
                 }`}
               >
-                {tier.price === "Custom" ? "Contact Us" : "Pay Now"}
+                {tier.price === "Custom" ? "Contact Us" : "Pay\u00A0Now"}
               </a>
             </motion.div>
           ))}

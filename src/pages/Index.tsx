@@ -8,6 +8,7 @@ import PricingSection from "@/components/PricingSection";
 import PartnersSection from "@/components/PartnersSection";
 import Footer from "@/components/Footer";
 import QueryBot from "@/components/QueryBot";
+import AIRobotWelcome from "@/components/AIRobotWelcome";
 
 const Index = () => {
   return (
@@ -22,6 +23,7 @@ const Index = () => {
       <PartnersSection />
       <Footer />
       <QueryBot />
+      <AIRobotWelcome />
     </div>
   );
 };

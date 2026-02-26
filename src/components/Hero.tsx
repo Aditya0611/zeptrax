@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Bot, Cpu, Shield, Cloud, Blocks, Zap } from "lucide-react";
-import zeptraxLogo from "@/assets/zeptrax-logo.png";
+import heroRobotVideo from "@/assets/hero-robot.mp4";
 
 const Hero = () => {
   return (
@@ -61,7 +61,7 @@ const Hero = () => {
               className="w-full h-full object-cover"
             >
               <source
-                src="https://cdn.pixabay.com/video/2024/01/25/198058-906392997_large.mp4"
+                src={heroRobotVideo}
                 type="video/mp4"
               />
             </video>

@@ -52,8 +52,23 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
         >
           {/* 3D Robot Video */}
-          <div className="w-52 h-52 md:w-72 md:h-72 lg:w-80 lg:h-80 mx-auto mb-8 rounded-full overflow-hidden ring-4 ring-primary/30 animate-pulse-glow"
+          <motion.div
+            className="w-52 h-52 md:w-72 md:h-72 lg:w-80 lg:h-80 mx-auto mb-8 rounded-full overflow-hidden ring-4 ring-primary/30"
             style={{ boxShadow: '0 0 60px hsl(215 100% 50% / 0.5), 0 0 120px hsl(215 100% 50% / 0.2)' }}
+            animate={{
+              y: [0, -12, 0],
+              rotate: [0, 2, -2, 0],
+              boxShadow: [
+                '0 0 60px hsl(215 100% 50% / 0.4), 0 0 120px hsl(215 100% 50% / 0.15)',
+                '0 0 80px hsl(215 100% 50% / 0.6), 0 0 150px hsl(215 100% 50% / 0.3)',
+                '0 0 60px hsl(215 100% 50% / 0.4), 0 0 120px hsl(215 100% 50% / 0.15)',
+              ],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           >
             <video
               autoPlay
@@ -67,7 +82,7 @@ const Hero = () => {
                 type="video/mp4"
               />
             </video>
-          </div>
+          </motion.div>
           <a
             href="https://www.zeptraxai.com"
             target="_blank"

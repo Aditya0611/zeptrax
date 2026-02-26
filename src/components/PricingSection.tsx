@@ -4,7 +4,7 @@ import { Check, Star, Zap, Crown } from "lucide-react";
 const tiers = [
   {
     name: "Foundation",
-    price: "₹9,999",
+    price: "€500",
     period: "per program",
     icon: Zap,
     highlight: false,
@@ -20,7 +20,7 @@ const tiers = [
   },
   {
     name: "Professional",
-    price: "₹19,999",
+    price: "€1,000",
     period: "per program",
     icon: Star,
     highlight: true,
@@ -116,7 +116,7 @@ const PricingSection = () => {
               </ul>
 
               <a
-                href={tier.price === "Custom" ? "https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t" : "upi://pay?pa=9354992890@ptyes&pn=Zeptrax%20AI&am=" + (tier.name === "Foundation" ? "9999" : "19999") + "&cu=INR&tn=" + encodeURIComponent(tier.name + " Program")}
+                href={tier.price === "Custom" ? "https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t" : "https://dashboard.skydo.com/accounts/zeptrax?location=europe"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`block w-full text-center py-3 rounded-xl font-semibold transition-all duration-300 whitespace-nowrap ${

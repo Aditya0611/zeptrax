@@ -53,11 +53,11 @@ const Hero = () => {
         >
           {/* 3D Robot Video */}
           <motion.div
-            className="w-52 h-52 md:w-72 md:h-72 lg:w-80 lg:h-80 mx-auto mb-8 rounded-full overflow-hidden ring-4 ring-primary/30"
+            className="w-64 h-44 md:w-80 md:h-56 lg:w-96 lg:h-64 mx-auto mb-10 rounded-2xl overflow-hidden ring-4 ring-primary/30"
             style={{ boxShadow: '0 0 60px hsl(215 100% 50% / 0.5), 0 0 120px hsl(215 100% 50% / 0.2)' }}
             animate={{
               y: [0, -12, 0],
-              rotate: [0, 2, -2, 0],
+              rotate: [0, 1, -1, 0],
               boxShadow: [
                 '0 0 60px hsl(215 100% 50% / 0.4), 0 0 120px hsl(215 100% 50% / 0.15)',
                 '0 0 80px hsl(215 100% 50% / 0.6), 0 0 150px hsl(215 100% 50% / 0.3)',
@@ -75,7 +75,7 @@ const Hero = () => {
               muted
               loop
               playsInline
-              className="w-full h-full object-cover scale-110"
+              className="w-full h-full object-cover"
             >
               <source
                 src={heroRobotVideo}

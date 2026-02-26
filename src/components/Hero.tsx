@@ -52,13 +52,15 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
         >
           {/* 3D Robot Video */}
-          <div className="w-40 h-40 md:w-56 md:h-56 mx-auto mb-6 rounded-full overflow-hidden glow-blue">
+          <div className="w-52 h-52 md:w-72 md:h-72 lg:w-80 lg:h-80 mx-auto mb-8 rounded-full overflow-hidden ring-4 ring-primary/30 animate-pulse-glow"
+            style={{ boxShadow: '0 0 60px hsl(215 100% 50% / 0.5), 0 0 120px hsl(215 100% 50% / 0.2)' }}
+          >
             <video
               autoPlay
               muted
               loop
               playsInline
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover scale-110"
             >
               <source
                 src={heroRobotVideo}

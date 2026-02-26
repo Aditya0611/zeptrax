@@ -51,7 +51,21 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <img src={zeptraxLogo} alt="Zeptrax AI" className="h-20 md:h-28 w-auto mx-auto mb-6" />
+          {/* 3D Robot Video */}
+          <div className="w-40 h-40 md:w-56 md:h-56 mx-auto mb-6 rounded-full overflow-hidden glow-blue">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source
+                src="https://cdn.pixabay.com/video/2024/01/25/198058-906392997_large.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
           <a
             href="https://www.zeptraxai.com"
             target="_blank"

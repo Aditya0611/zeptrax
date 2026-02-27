@@ -8,7 +8,7 @@ const Navbar = () => {
   const location = useLocation();
 
   const links = [
-    { href: "/", label: "Home" },
+    { href: "/register", label: "Register Now" },
     { href: "https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t", label: "Contact Us", external: true },
   ];
 

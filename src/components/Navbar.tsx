@@ -1,14 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, Shield } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import zeptraxLogo from "@/assets/zeptrax-logo.png";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { user, isAdmin, loading } = useAuth();
 
   const links = [
     { href: "/register", label: "Register Now" },
+    { href: "/auth", label: user ? "My Account" : "Login" },
+    ...(isAdmin ? [{ href: "/admin", label: "Admin Dashboard" }] : []),
     { href: "https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t", label: "Contact Us", external: true },
   ];
 

@@ -4,7 +4,6 @@ import { toast } from "sonner";
 import { UserPlus, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import QueryBot from "@/components/QueryBot";
@@ -17,7 +16,6 @@ const domains = [
 ];
 
 const Register = () => {
-  const { user } = useAuth();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -31,6 +29,7 @@ const Register = () => {
   const [otp, setOtp] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
   const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   const sendEmailOtp = async () => {
     if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
@@ -39,31 +38,40 @@ const Register = () => {
     }
     setSendingOtp(true);
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: form.email,
-        options: { shouldCreateUser: false },
+      const { data, error } = await supabase.functions.invoke("send-registration-otp", {
+        body: { email: form.email },
       });
-      // Even if user doesn't exist, we still show OTP sent for security
-      if (error && !error.message.includes("Signups not allowed")) {
-        throw error;
-      }
+      if (error) throw error;
       setOtpSent(true);
       toast.success("OTP sent to your email. Please check your inbox.");
     } catch (err: any) {
-      // For registration verification, we use a simulated OTP since user may not exist yet
-      setOtpSent(true);
-      toast.success("Verification code sent to your email (demo: use 123456)");
+      toast.error(err.message || "Failed to send OTP");
     } finally {
       setSendingOtp(false);
     }
   };
 
-  const verifyEmailOtp = () => {
-    if (otp === "123456" || otp.length === 6) {
-      setEmailVerified(true);
-      toast.success("Email verified successfully!");
-    } else {
-      toast.error("Invalid OTP. Please try again.");
+  const verifyEmailOtp = async () => {
+    if (otp.length !== 6) {
+      toast.error("Please enter a 6-digit OTP");
+      return;
+    }
+    setVerifyingOtp(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("verify-registration-otp", {
+        body: { email: form.email, otp },
+      });
+      if (error) throw error;
+      if (data?.verified) {
+        setEmailVerified(true);
+        toast.success("Email verified successfully!");
+      } else {
+        toast.error(data?.error || "Invalid OTP. Please try again.");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Verification failed");
+    } finally {
+      setVerifyingOtp(false);
     }
   };
 
@@ -81,7 +89,6 @@ const Register = () => {
 
     try {
       const { error } = await supabase.from("registrations").insert({
-        user_id: user?.id || null,
         full_name: form.fullName,
         email: form.email,
         phone: form.phone,
@@ -92,7 +99,7 @@ const Register = () => {
       });
 
       if (error) throw error;
-      toast.success("Registration successful! We'll contact you shortly.");
+      toast.success("Registration successful! You'll receive login credentials once approved by admin.");
       setForm({ fullName: "", email: "", phone: "", domain: "", experience: "", message: "" });
       setEmailVerified(false);
       setOtpSent(false);
@@ -161,9 +168,9 @@ const Register = () => {
                       <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} maxLength={6}
                         className="flex-1 px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="Enter 6-digit OTP" />
-                      <button type="button" onClick={verifyEmailOtp}
-                        className="px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap hover:bg-primary/90">
-                        Verify
+                      <button type="button" onClick={verifyEmailOtp} disabled={verifyingOtp}
+                        className="px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap hover:bg-primary/90 disabled:opacity-50">
+                        {verifyingOtp ? "Verifying..." : "Verify"}
                       </button>
                     </div>
                   )}

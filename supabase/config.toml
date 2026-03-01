@@ -1,1 +1,10 @@
 project_id = "dxorjkcmgksizyyruxni"
+
+[functions.send-registration-otp]
+verify_jwt = false
+
+[functions.verify-registration-otp]
+verify_jwt = false
+
+[functions.approve-registration]
+verify_jwt = false

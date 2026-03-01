@@ -183,6 +183,33 @@ export type Database = {
         }
         Relationships: []
       }
+      email_otps: {
+        Row: {
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          otp_code: string
+          verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          otp_code: string
+          verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          otp_code?: string
+          verified?: boolean
+        }
+        Relationships: []
+      }
       onboarding: {
         Row: {
           completed_at: string | null
@@ -270,6 +297,7 @@ export type Database = {
           email: string
           experience: string | null
           full_name: string
+          generated_password: string | null
           id: string
           message: string | null
           phone: string
@@ -284,6 +312,7 @@ export type Database = {
           email: string
           experience?: string | null
           full_name: string
+          generated_password?: string | null
           id?: string
           message?: string | null
           phone: string
@@ -298,6 +327,7 @@ export type Database = {
           email?: string
           experience?: string | null
           full_name?: string
+          generated_password?: string | null
           id?: string
           message?: string | null
           phone?: string

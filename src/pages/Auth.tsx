@@ -1,53 +1,53 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { LogIn, UserPlus, ArrowLeft } from "lucide-react";
+import { LogIn, ArrowLeft, KeyRound } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      toast.error("Please fill all required fields");
+      toast.error("Please fill all fields");
       return;
     }
     setLoading(true);
-
     try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Logged in successfully!");
-        navigate("/admin");
-      } else {
-        if (!fullName) {
-          toast.error("Please enter your full name");
-          setLoading(false);
-          return;
-        }
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { full_name: fullName },
-            emailRedirectTo: window.location.origin,
-          },
-        });
-        if (error) throw error;
-        toast.success("Check your email to verify your account!");
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      toast.success("Logged in successfully!");
+      navigate("/admin");
     } catch (err: any) {
-      toast.error(err.message || "Authentication failed");
+      toast.error(err.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error("Please enter your email");
+      return;
+    }
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      toast.success("Password reset link sent to your email!");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to send reset link");
     } finally {
       setLoading(false);
     }
@@ -71,67 +71,83 @@ const Auth = () => {
             <div className="glass-card rounded-2xl p-8">
               <div className="text-center mb-8">
                 <div className="w-16 h-16 rounded-2xl bg-primary/15 flex items-center justify-center mx-auto mb-4">
-                  {isLogin ? <LogIn className="w-8 h-8 text-primary" /> : <UserPlus className="w-8 h-8 text-primary" />}
+                  {isForgotPassword ? <KeyRound className="w-8 h-8 text-primary" /> : <LogIn className="w-8 h-8 text-primary" />}
                 </div>
                 <h1 className="text-2xl font-display font-bold text-foreground mb-2">
-                  {isLogin ? "Welcome Back" : "Create Account"}
+                  {isForgotPassword ? "Reset Password" : "Login"}
                 </h1>
                 <p className="text-muted-foreground text-sm">
-                  {isLogin ? "Sign in to your account" : "Sign up for a new account"}
+                  {isForgotPassword
+                    ? "Enter your email to receive a password reset link"
+                    : "Sign in with the credentials provided by admin"}
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {!isLogin && (
+              {isForgotPassword ? (
+                <form onSubmit={handleForgotPassword} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">Full Name</label>
+                    <label className="block text-sm font-medium text-foreground mb-1.5">Email</label>
                     <input
-                      type="text"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                      placeholder="Enter your full name"
+                      placeholder="your@email.com"
                     />
                   </div>
-                )}
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Email</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Password</label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="••••••••"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-3 rounded-lg bg-gradient-cta text-primary-foreground font-semibold glow-blue hover:scale-[1.02] transition-transform disabled:opacity-50"
-                >
-                  {loading ? "Please wait..." : isLogin ? "Sign In" : "Sign Up"}
-                </button>
-              </form>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-3 rounded-lg bg-gradient-cta text-primary-foreground font-semibold glow-blue hover:scale-[1.02] transition-transform disabled:opacity-50"
+                  >
+                    {loading ? "Sending..." : "Send Reset Link"}
+                  </button>
+                </form>
+              ) : (
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1.5">Email</label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1.5">Password</label>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder="••••••••"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-3 rounded-lg bg-gradient-cta text-primary-foreground font-semibold glow-blue hover:scale-[1.02] transition-transform disabled:opacity-50"
+                  >
+                    {loading ? "Signing in..." : "Sign In"}
+                  </button>
+                </form>
+              )}
 
-              <p className="text-center text-sm text-muted-foreground mt-6">
-                {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+              <div className="text-center mt-6 space-y-2">
                 <button
-                  onClick={() => setIsLogin(!isLogin)}
-                  className="text-primary hover:underline font-medium"
+                  onClick={() => setIsForgotPassword(!isForgotPassword)}
+                  className="text-sm text-primary hover:underline font-medium"
                 >
-                  {isLogin ? "Sign Up" : "Sign In"}
+                  {isForgotPassword ? "Back to Login" : "Forgot Password?"}
                 </button>
-              </p>
+                {!isForgotPassword && (
+                  <p className="text-xs text-muted-foreground">
+                    Don't have credentials? <Link to="/register" className="text-primary hover:underline">Register first</Link>, then wait for admin approval.
+                  </p>
+                )}
+              </div>
             </div>
           </motion.div>
         </div>

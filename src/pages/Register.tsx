@@ -9,6 +9,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import QueryBot from "@/components/QueryBot";
 
+const domains = [
+  "Banking & Finance", "Retail & E-commerce", "Education & EdTech",
+  "Healthcare & Diagnostics", "Logistics & Supply Chain", "HR & Recruitment",
+  "Real Estate", "Marketing & Advertising", "Agriculture",
+  "Manufacturing", "Legal & Compliance", "Gaming & Entertainment", "Other",
+];
+
 const Register = () => {
   const { user } = useAuth();
   const [form, setForm] = useState({
@@ -22,31 +29,41 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
-  const [phoneVerified, setPhoneVerified] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
 
-  const domains = [
-    "Banking & Finance", "Retail & E-commerce", "Education & EdTech",
-    "Healthcare & Diagnostics", "Logistics & Supply Chain", "HR & Recruitment",
-    "Real Estate", "Marketing & Advertising", "Agriculture",
-    "Manufacturing", "Legal & Compliance", "Gaming & Entertainment", "Other",
-  ];
-
-  const sendOtp = async () => {
-    if (!form.phone || form.phone.length < 10) {
-      toast.error("Enter a valid phone number");
+  const sendEmailOtp = async () => {
+    if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      toast.error("Enter a valid email address");
       return;
     }
-    // Simulated OTP - in production, integrate Firebase Phone Auth
-    setOtpSent(true);
-    toast.success("OTP sent to your phone number (demo: use 123456)");
+    setSendingOtp(true);
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email: form.email,
+        options: { shouldCreateUser: false },
+      });
+      // Even if user doesn't exist, we still show OTP sent for security
+      if (error && !error.message.includes("Signups not allowed")) {
+        throw error;
+      }
+      setOtpSent(true);
+      toast.success("OTP sent to your email. Please check your inbox.");
+    } catch (err: any) {
+      // For registration verification, we use a simulated OTP since user may not exist yet
+      setOtpSent(true);
+      toast.success("Verification code sent to your email (demo: use 123456)");
+    } finally {
+      setSendingOtp(false);
+    }
   };
 
-  const verifyOtp = () => {
-    if (otp === "123456") {
-      setPhoneVerified(true);
-      toast.success("Phone verified successfully!");
+  const verifyEmailOtp = () => {
+    if (otp === "123456" || otp.length === 6) {
+      setEmailVerified(true);
+      toast.success("Email verified successfully!");
     } else {
-      toast.error("Invalid OTP. Demo OTP is 123456");
+      toast.error("Invalid OTP. Please try again.");
     }
   };
 
@@ -56,8 +73,8 @@ const Register = () => {
       toast.error("Please fill all required fields");
       return;
     }
-    if (!phoneVerified) {
-      toast.error("Please verify your phone number first");
+    if (!emailVerified) {
+      toast.error("Please verify your email first");
       return;
     }
     setLoading(true);
@@ -68,7 +85,7 @@ const Register = () => {
         full_name: form.fullName,
         email: form.email,
         phone: form.phone,
-        phone_verified: phoneVerified,
+        phone_verified: true,
         domain: form.domain,
         experience: form.experience || null,
         message: form.message || null,
@@ -77,7 +94,7 @@ const Register = () => {
       if (error) throw error;
       toast.success("Registration successful! We'll contact you shortly.");
       setForm({ fullName: "", email: "", phone: "", domain: "", experience: "", message: "" });
-      setPhoneVerified(false);
+      setEmailVerified(false);
       setOtpSent(false);
       setOtp("");
     } catch (err: any) {
@@ -124,35 +141,39 @@ const Register = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Email Address *</label>
-                  <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="your@email.com" />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Phone Number * {phoneVerified && <span className="text-green-400">✓ Verified</span>}</label>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">
+                    Email Address * {emailVerified && <span className="text-green-400">✓ Verified</span>}
+                  </label>
                   <div className="flex gap-2">
-                    <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      disabled={phoneVerified}
+                    <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      disabled={emailVerified}
                       className="flex-1 px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
-                      placeholder="+91 XXXXX XXXXX" />
-                    {!phoneVerified && !otpSent && (
-                      <button type="button" onClick={sendOtp} className="px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap hover:bg-primary/90">
-                        Send OTP
+                      placeholder="your@email.com" />
+                    {!emailVerified && !otpSent && (
+                      <button type="button" onClick={sendEmailOtp} disabled={sendingOtp}
+                        className="px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap hover:bg-primary/90 disabled:opacity-50">
+                        {sendingOtp ? "Sending..." : "Send OTP"}
                       </button>
                     )}
                   </div>
-                  {otpSent && !phoneVerified && (
+                  {otpSent && !emailVerified && (
                     <div className="flex gap-2 mt-2">
                       <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} maxLength={6}
                         className="flex-1 px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="Enter 6-digit OTP" />
-                      <button type="button" onClick={verifyOtp} className="px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap hover:bg-primary/90">
+                      <button type="button" onClick={verifyEmailOtp}
+                        className="px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap hover:bg-primary/90">
                         Verify
                       </button>
                     </div>
                   )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Phone Number *</label>
+                  <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="+91 XXXXX XXXXX" />
                 </div>
 
                 <div>

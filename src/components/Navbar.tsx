@@ -13,7 +13,7 @@ const Navbar = () => {
     { href: "/register", label: "Register Now" },
     { href: "/auth", label: user ? "My Account" : "Login" },
     ...(isAdmin ? [{ href: "/admin", label: "Admin Dashboard" }] : []),
-    { href: "https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t", label: "Contact Us", external: true },
+    { href: "https://chat.whatsapp.com/EAJYjQDwsoYDyBDNmmGrLE", label: "Join Community", external: true },
   ];
 
   return (

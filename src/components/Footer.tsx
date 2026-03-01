@@ -13,7 +13,7 @@ const Footer = () => {
             <Link to="/" className="hover:text-primary transition-colors">Home</Link>
             <Link to="/register" className="hover:text-primary transition-colors">Register</Link>
             <a href="https://www.zeptraxai.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Website</a>
-            <a href="https://chat.whatsapp.com/Kzpq23LBzuHLuN1Es2SN2P?mode=gi_t" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Contact Us</a>
+            <a href="https://forms.gle/hdYpvJaVJQiHjT2w7" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Contact Us</a>
           </div>
           <p className="text-xs text-muted-foreground">
             © 2026 Zeptrax AI. All rights reserved.

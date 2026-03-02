@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
   LayoutDashboard, Users, Award, FileText, Star, UserCheck,
-  Mail, ShieldCheck, LogOut, Menu, X, ChevronRight
+  Mail, ShieldCheck, LogOut, Menu, X, ChevronRight, FolderOpen, Video
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import AdminRecords from "@/components/admin/AdminRecords";
@@ -17,10 +16,14 @@ import AdminOnboarding from "@/components/admin/AdminOnboarding";
 import AdminEmailLogs from "@/components/admin/AdminEmailLogs";
 import AdminCertificateVerification from "@/components/admin/AdminCertificateVerification";
 import AdminOverview from "@/components/admin/AdminOverview";
+import AdminAssignedProjects from "@/components/admin/AdminAssignedProjects";
+import AdminLearningVideos from "@/components/admin/AdminLearningVideos";
 
 const tabs = [
   { id: "overview", label: "Dashboard", icon: LayoutDashboard },
   { id: "records", label: "Records", icon: FileText },
+  { id: "assigned-projects", label: "Assign Projects", icon: FolderOpen },
+  { id: "learning-videos", label: "Learning Videos", icon: Video },
   { id: "teams", label: "Teams", icon: Users },
   { id: "certificates", label: "Certificates", icon: Award },
   { id: "documents", label: "Documents", icon: FileText },
@@ -57,6 +60,8 @@ const AdminDashboard = () => {
     switch (activeTab) {
       case "overview": return <AdminOverview />;
       case "records": return <AdminRecords />;
+      case "assigned-projects": return <AdminAssignedProjects />;
+      case "learning-videos": return <AdminLearningVideos />;
       case "teams": return <AdminTeams />;
       case "certificates": return <AdminCertificates />;
       case "documents": return <AdminDocuments />;
@@ -72,7 +77,6 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-16 flex">
-        {/* Mobile sidebar toggle */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="fixed bottom-4 right-4 z-50 md:hidden w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg"
@@ -80,7 +84,6 @@ const AdminDashboard = () => {
           {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
 
-        {/* Sidebar */}
         <aside
           className={`fixed md:sticky top-16 left-0 z-40 h-[calc(100vh-4rem)] w-64 bg-card border-r border-border p-4 overflow-y-auto transition-transform ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
@@ -90,14 +93,9 @@ const AdminDashboard = () => {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => {
-                  setActiveTab(tab.id);
-                  setSidebarOpen(false);
-                }}
+                onClick={() => { setActiveTab(tab.id); setSidebarOpen(false); }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === tab.id
-                    ? "bg-primary/15 text-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  activeTab === tab.id ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
                 <tab.icon className="w-4 h-4" />
@@ -118,7 +116,6 @@ const AdminDashboard = () => {
           </div>
         </aside>
 
-        {/* Main content */}
         <main className="flex-1 p-4 md:p-8 min-h-[calc(100vh-4rem)]">
           {renderContent()}
         </main>

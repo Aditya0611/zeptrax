@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { Eye, EyeOff, Copy, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Eye, EyeOff, Copy, CheckCircle, XCircle, Clock, KeyRound } from "lucide-react";
 
 interface Registration {
   id: string;
@@ -17,11 +16,12 @@ interface Registration {
 }
 
 const AdminRecords = () => {
-  const { session } = useAuth();
   const [records, setRecords] = useState<Registration[]>([]);
   const [loading, setLoading] = useState(true);
   const [approving, setApproving] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<Record<string, boolean>>({});
+  const [manualCreds, setManualCreds] = useState<Record<string, { email: string; password: string }>>({});
+  const [showManual, setShowManual] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const fetch = async () => {
@@ -50,6 +50,34 @@ const AdminRecords = () => {
           r.id === id ? { ...r, status: "approved", generated_password: data.password } : r
         )
       );
+    } catch (err: any) {
+      toast.error(err.message || "Approval failed");
+    } finally {
+      setApproving(null);
+    }
+  };
+
+  const approveWithManualCreds = async (id: string) => {
+    const creds = manualCreds[id];
+    if (!creds?.password || creds.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+    setApproving(id);
+    try {
+      const { data, error } = await supabase.functions.invoke("approve-registration", {
+        body: { registrationId: id, manualPassword: creds.password },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      toast.success(`Approved with custom password!`);
+      setRecords((prev) =>
+        prev.map((r) =>
+          r.id === id ? { ...r, status: "approved", generated_password: creds.password } : r
+        )
+      );
+      setShowManual((p) => ({ ...p, [id]: false }));
     } catch (err: any) {
       toast.error(err.message || "Approval failed");
     } finally {
@@ -130,23 +158,51 @@ const AdminRecords = () => {
                     <span className="text-xs text-muted-foreground">—</span>
                   )}
                 </td>
-                <td className="py-3 px-2 flex gap-2">
+                <td className="py-3 px-2">
                   {r.status !== "approved" && (
-                    <button
-                      onClick={() => approveRegistration(r.id)}
-                      disabled={approving === r.id}
-                      className="text-xs px-2 py-1 rounded bg-green-500/20 text-green-400 hover:bg-green-500/30 disabled:opacity-50"
-                    >
-                      {approving === r.id ? "Approving..." : "Approve"}
-                    </button>
-                  )}
-                  {r.status !== "rejected" && r.status !== "approved" && (
-                    <button
-                      onClick={() => rejectRegistration(r.id)}
-                      className="text-xs px-2 py-1 rounded bg-destructive/20 text-destructive hover:bg-destructive/30"
-                    >
-                      Reject
-                    </button>
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => approveRegistration(r.id)}
+                          disabled={approving === r.id}
+                          className="text-xs px-2 py-1 rounded bg-green-500/20 text-green-400 hover:bg-green-500/30 disabled:opacity-50"
+                        >
+                          {approving === r.id ? "..." : "Auto Approve"}
+                        </button>
+                        <button
+                          onClick={() => setShowManual(p => ({ ...p, [r.id]: !p[r.id] }))}
+                          className="text-xs px-2 py-1 rounded bg-primary/20 text-primary hover:bg-primary/30"
+                        >
+                          <KeyRound className="w-3 h-3 inline mr-1" />Manual
+                        </button>
+                      </div>
+                      {showManual[r.id] && (
+                        <div className="space-y-1">
+                          <input
+                            type="text"
+                            placeholder="Set password"
+                            value={manualCreds[r.id]?.password || ""}
+                            onChange={(e) => setManualCreds(p => ({ ...p, [r.id]: { email: r.email, password: e.target.value } }))}
+                            className="w-full px-2 py-1 text-xs rounded bg-muted border border-border text-foreground"
+                          />
+                          <button
+                            onClick={() => approveWithManualCreds(r.id)}
+                            disabled={approving === r.id}
+                            className="text-xs px-2 py-1 rounded bg-green-500/20 text-green-400 hover:bg-green-500/30 disabled:opacity-50"
+                          >
+                            {approving === r.id ? "Approving..." : "Approve with Password"}
+                          </button>
+                        </div>
+                      )}
+                      {r.status !== "rejected" && (
+                        <button
+                          onClick={() => rejectRegistration(r.id)}
+                          className="text-xs px-2 py-1 rounded bg-destructive/20 text-destructive hover:bg-destructive/30"
+                        >
+                          Reject
+                        </button>
+                      )}
+                    </div>
                   )}
                 </td>
               </tr>

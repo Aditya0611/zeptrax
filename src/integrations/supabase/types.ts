@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      assigned_projects: {
+        Row: {
+          assigned_by: string | null
+          created_at: string
+          description: string | null
+          file_name: string | null
+          file_url: string | null
+          id: string
+          status: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_by?: string | null
+          created_at?: string
+          description?: string | null
+          file_name?: string | null
+          file_url?: string | null
+          id?: string
+          status?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_by?: string | null
+          created_at?: string
+          description?: string | null
+          file_name?: string | null
+          file_url?: string | null
+          id?: string
+          status?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       certificate_verifications: {
         Row: {
           certificate_id: string | null
@@ -207,6 +246,48 @@ export type Database = {
           id?: string
           otp_code?: string
           verified?: boolean
+        }
+        Relationships: []
+      }
+      learning_videos: {
+        Row: {
+          assigned_by: string | null
+          created_at: string
+          description: string | null
+          duration: string | null
+          id: string
+          status: string | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          user_id: string
+          video_url: string
+        }
+        Insert: {
+          assigned_by?: string | null
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          status?: string | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+          video_url: string
+        }
+        Update: {
+          assigned_by?: string | null
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          status?: string | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          video_url?: string
         }
         Relationships: []
       }

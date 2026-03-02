@@ -25,7 +25,14 @@ const Auth = () => {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       toast.success("Logged in successfully!");
-      navigate("/admin");
+      // Check if user is admin to route correctly
+      const { data: roleData } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", (await supabase.auth.getUser()).data.user?.id || "")
+        .eq("role", "admin")
+        .maybeSingle();
+      navigate(roleData ? "/admin" : "/dashboard");
     } catch (err: any) {
       toast.error(err.message || "Login failed");
     } finally {

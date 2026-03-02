@@ -2,7 +2,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 function generatePassword(length = 12): string {
@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
 
     if (!roleData) throw new Error("Not authorized - admin only");
 
-    const { registrationId } = await req.json();
+    const { registrationId, manualPassword } = await req.json();
     if (!registrationId) throw new Error("registrationId is required");
 
     // Get registration
@@ -56,8 +56,8 @@ Deno.serve(async (req) => {
 
     if (regError || !reg) throw new Error("Registration not found");
 
-    // Generate password
-    const password = generatePassword();
+    // Use manual password or generate one
+    const password = manualPassword || generatePassword();
 
     // Create auth user
     const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
@@ -74,7 +74,6 @@ Deno.serve(async (req) => {
         const existingUser = users.find((u: any) => u.email === reg.email);
         if (existingUser) {
           await supabaseAdmin.auth.admin.updateUser(existingUser.id, { password });
-          // Update registration
           await supabaseAdmin.from("registrations").update({
             status: "approved",
             generated_password: password,

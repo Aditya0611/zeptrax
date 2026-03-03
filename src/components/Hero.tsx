@@ -104,17 +104,11 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex flex-wrap justify-center gap-4"
+          className="flex justify-center"
         >
           <a
-            href="/register"
-            className="px-8 py-4 rounded-lg bg-gradient-cta text-primary-foreground font-semibold text-lg glow-blue hover:scale-105 transition-transform"
-          >
-            Register Now
-          </a>
-          <a
             href="#domains"
-            className="px-8 py-4 rounded-lg border-glow text-foreground font-semibold text-lg hover:bg-muted transition-colors"
+            className="px-8 py-4 rounded-lg bg-gradient-cta text-primary-foreground font-semibold text-lg glow-blue hover:scale-105 transition-transform"
           >
             Explore Domains
           </a>

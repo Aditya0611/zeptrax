@@ -25,55 +25,6 @@ const Register = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [emailVerified, setEmailVerified] = useState(false);
-  const [sendingOtp, setSendingOtp] = useState(false);
-  const [verifyingOtp, setVerifyingOtp] = useState(false);
-
-  const sendEmailOtp = async () => {
-    if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      toast.error("Enter a valid email address");
-      return;
-    }
-    setSendingOtp(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("send-registration-otp", {
-        body: { email: form.email },
-      });
-      if (error) throw error;
-      setOtpSent(true);
-      toast.success("OTP sent to your email. Please check your inbox.");
-    } catch (err: any) {
-      toast.error(err.message || "Failed to send OTP");
-    } finally {
-      setSendingOtp(false);
-    }
-  };
-
-  const verifyEmailOtp = async () => {
-    if (otp.length !== 6) {
-      toast.error("Please enter a 6-digit OTP");
-      return;
-    }
-    setVerifyingOtp(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("verify-registration-otp", {
-        body: { email: form.email, otp },
-      });
-      if (error) throw error;
-      if (data?.verified) {
-        setEmailVerified(true);
-        toast.success("Email verified successfully!");
-      } else {
-        toast.error(data?.error || "Invalid OTP. Please try again.");
-      }
-    } catch (err: any) {
-      toast.error(err.message || "Verification failed");
-    } finally {
-      setVerifyingOtp(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,8 +32,8 @@ const Register = () => {
       toast.error("Please fill all required fields");
       return;
     }
-    if (!emailVerified) {
-      toast.error("Please verify your email first");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      toast.error("Enter a valid email address");
       return;
     }
     setLoading(true);
@@ -101,9 +52,6 @@ const Register = () => {
       if (error) throw error;
       toast.success("Registration successful! You'll receive login credentials once approved by admin.");
       setForm({ fullName: "", email: "", phone: "", domain: "", experience: "", message: "" });
-      setEmailVerified(false);
-      setOtpSent(false);
-      setOtp("");
     } catch (err: any) {
       toast.error(err.message || "Registration failed. Please try again.");
     } finally {
@@ -148,32 +96,10 @@ const Register = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Email Address * {emailVerified && <span className="text-green-400">✓ Verified</span>}
-                  </label>
-                  <div className="flex gap-2">
-                    <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      disabled={emailVerified}
-                      className="flex-1 px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
-                      placeholder="your@email.com" />
-                    {!emailVerified && !otpSent && (
-                      <button type="button" onClick={sendEmailOtp} disabled={sendingOtp}
-                        className="px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap hover:bg-primary/90 disabled:opacity-50">
-                        {sendingOtp ? "Sending..." : "Send OTP"}
-                      </button>
-                    )}
-                  </div>
-                  {otpSent && !emailVerified && (
-                    <div className="flex gap-2 mt-2">
-                      <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} maxLength={6}
-                        className="flex-1 px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="Enter 6-digit OTP" />
-                      <button type="button" onClick={verifyEmailOtp} disabled={verifyingOtp}
-                        className="px-4 py-3 rounded-lg bg-primary text-primary-foreground text-sm font-medium whitespace-nowrap hover:bg-primary/90 disabled:opacity-50">
-                        {verifyingOtp ? "Verifying..." : "Verify"}
-                      </button>
-                    </div>
-                  )}
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Email Address *</label>
+                  <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="your@email.com" />
                 </div>
 
                 <div>

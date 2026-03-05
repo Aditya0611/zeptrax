@@ -11,6 +11,7 @@ import ResetPassword from "./pages/ResetPassword";
 import AdminDashboard from "./pages/AdminDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import NotFound from "./pages/NotFound";
+import CertificateView from "./pages/CertificateView";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/dashboard" element={<UserDashboard />} />
+            <Route path="/certificate/:certNumber" element={<CertificateView />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

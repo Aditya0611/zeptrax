@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
-  LayoutDashboard, FolderOpen, Video, LogOut, Menu, X, ChevronRight, User
+  LayoutDashboard, FolderOpen, Video, LogOut, Menu, X, ChevronRight, User, BookOpen
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import UserAssignedProjects from "@/components/user/UserAssignedProjects";

@@ -90,7 +90,7 @@ const AdminModules = () => {
 
   const removeDocument = async (id: string) => {
     if (!confirm("Remove this document?")) return;
-    await supabase.from("module_documents").delete().eq("id", id);
+    await supabase.from("module_documents" as any).delete().eq("id", id);
     setDocuments(prev => prev.filter(d => d.id !== id));
     toast.success("Document removed");
   };

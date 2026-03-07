@@ -46,7 +46,21 @@ const CertificateView = () => {
     fetch();
   }, [certNumber]);
 
+  const certRef = useRef<HTMLDivElement>(null);
   const handlePrint = () => window.print();
+
+  const handleDownloadPDF = async () => {
+    if (!certRef.current) return;
+    try {
+      const canvas = await html2canvas(certRef.current, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width, canvas.height] });
+      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+      pdf.save(`${cert?.certificate_number || "certificate"}.pdf`);
+    } catch {
+      toast.error("Failed to generate PDF");
+    }
+  };
 
   if (loading) {
     return (

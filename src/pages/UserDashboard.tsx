@@ -13,6 +13,7 @@ import UserModules from "@/components/user/UserModules";
 
 const tabs = [
   { id: "overview", label: "Dashboard", icon: LayoutDashboard },
+  { id: "modules", label: "Modules", icon: BookOpen },
   { id: "projects", label: "Assigned Projects", icon: FolderOpen },
   { id: "videos", label: "Learning Videos", icon: Video },
 ];

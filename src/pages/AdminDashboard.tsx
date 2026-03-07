@@ -62,6 +62,7 @@ const AdminDashboard = () => {
     switch (activeTab) {
       case "overview": return <AdminOverview />;
       case "records": return <AdminRecords />;
+      case "modules": return <AdminModules />;
       case "assigned-projects": return <AdminAssignedProjects />;
       case "learning-videos": return <AdminLearningVideos />;
       case "teams": return <AdminTeams />;

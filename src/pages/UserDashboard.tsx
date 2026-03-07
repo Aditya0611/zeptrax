@@ -61,7 +61,13 @@ const UserDashboard = () => {
         return (
           <div>
             <h2 className="text-2xl font-display font-bold text-foreground mb-6">Welcome, {profile?.full_name || user.email}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <button onClick={() => setActiveTab("modules")}
+                className="glass-card rounded-2xl p-6 text-left hover:border-primary/50 transition-colors">
+                <BookOpen className="w-10 h-10 text-primary mb-3" />
+                <h3 className="text-lg font-semibold text-foreground">Modules</h3>
+                <p className="text-sm text-muted-foreground mt-1">Access your assigned learning modules</p>
+              </button>
               <button onClick={() => setActiveTab("projects")}
                 className="glass-card rounded-2xl p-6 text-left hover:border-primary/50 transition-colors">
                 <FolderOpen className="w-10 h-10 text-primary mb-3" />

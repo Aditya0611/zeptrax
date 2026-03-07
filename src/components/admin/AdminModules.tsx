@@ -59,12 +59,12 @@ const AdminModules = () => {
 
   const fetchAll = async () => {
     const [docsRes, modulesRes, usersRes] = await Promise.all([
-      supabase.from("module_documents").select("*").order("created_at", { ascending: false }),
-      supabase.from("user_modules").select("*"),
+      supabase.from("module_documents" as any).select("*").order("created_at", { ascending: false }),
+      supabase.from("user_modules" as any).select("*"),
       supabase.from("registrations").select("id, email, full_name, user_id").eq("status", "approved"),
     ]);
-    setDocuments((docsRes.data as ModuleDocument[]) || []);
-    setUserModules((modulesRes.data as UserModule[]) || []);
+    setDocuments((docsRes.data as unknown as ModuleDocument[]) || []);
+    setUserModules((modulesRes.data as unknown as UserModule[]) || []);
     setApprovedUsers((usersRes.data as ApprovedUser[]) || []);
     setLoading(false);
   };

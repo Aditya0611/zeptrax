@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import {
   LayoutDashboard, Users, Award, FileText, Star, UserCheck,
-  Mail, ShieldCheck, LogOut, Menu, X, ChevronRight, FolderOpen, Video
+  Mail, ShieldCheck, LogOut, Menu, X, ChevronRight, FolderOpen, Video, BookOpen
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import AdminRecords from "@/components/admin/AdminRecords";

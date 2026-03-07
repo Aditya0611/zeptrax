@@ -101,12 +101,20 @@ const CertificateView = () => {
             </p>
             <p className="text-xs text-gray-500">Certificate ID: {cert.certificate_number}</p>
           </div>
-          <button
-            onClick={handlePrint}
-            className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 print:hidden"
-          >
-            <Download className="w-4 h-4" /> Print / Download
-          </button>
+          <div className="ml-auto flex gap-2 print:hidden">
+            <button
+              onClick={handleDownloadPDF}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-600 text-white text-sm hover:bg-green-700"
+            >
+              <FileDown className="w-4 h-4" /> Download PDF
+            </button>
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700"
+            >
+              <Download className="w-4 h-4" /> Print
+            </button>
+          </div>
         </div>
       </div>
 

@@ -10,8 +10,8 @@ const Navbar = () => {
   const { user, isAdmin } = useAuth();
 
   const links = [
-    { href: "/register", label: "Register Now" },
-    { href: "/auth", label: "Login" },
+    ...(!user ? [{ href: "/register", label: "Register Now" }] : []),
+    ...(!user ? [{ href: "/auth", label: "Login" }] : []),
     ...(user && !isAdmin ? [{ href: "/dashboard", label: "My Dashboard" }] : []),
     ...(isAdmin ? [{ href: "/admin", label: "Admin Dashboard" }] : []),
     { href: "https://chat.whatsapp.com/EAJYjQDwsoYDyBDNmmGrLE", label: "Join Community", external: true },

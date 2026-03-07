@@ -97,7 +97,7 @@ const AdminModules = () => {
 
   const assignModule = async () => {
     if (!selectedUserId) { toast.error("Select a user"); return; }
-    const { error } = await supabase.from("user_modules").insert({
+    const { error } = await supabase.from("user_modules" as any).insert({
       user_id: selectedUserId,
       module_level: activeLevel,
     });

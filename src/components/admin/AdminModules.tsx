@@ -112,7 +112,7 @@ const AdminModules = () => {
   };
 
   const revokeModule = async (id: string) => {
-    await supabase.from("user_modules").delete().eq("id", id);
+    await supabase.from("user_modules" as any).delete().eq("id", id);
     setUserModules(prev => prev.filter(m => m.id !== id));
     toast.success("Access revoked");
   };

@@ -6,6 +6,7 @@ import { ShieldCheck, ShieldX, Download, FileDown } from "lucide-react";
 import CertificateTemplate from "@/components/CertificateTemplate";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { toast } from "sonner";
 
 const CertificateView = () => {
   const { certNumber } = useParams<{ certNumber: string }>();

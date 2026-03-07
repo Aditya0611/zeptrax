@@ -72,7 +72,7 @@ const AdminModules = () => {
   const addDocument = async () => {
     if (!docTitle.trim()) { toast.error("Title is required"); return; }
     setUploading(true);
-    const { error } = await supabase.from("module_documents").insert({
+    const { error } = await supabase.from("module_documents" as any).insert({
       module_level: activeLevel,
       title: docTitle.trim(),
       description: docDesc.trim() || null,

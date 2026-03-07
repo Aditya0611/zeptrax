@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { verifyBlock } from "@/lib/blockchain";
-import { ShieldCheck, ShieldX, Download } from "lucide-react";
+import { ShieldCheck, ShieldX, Download, FileDown } from "lucide-react";
 import CertificateTemplate from "@/components/CertificateTemplate";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const CertificateView = () => {
   const { certNumber } = useParams<{ certNumber: string }>();

@@ -28,6 +28,8 @@ const AdminCertificates = () => {
   const [certType, setCertType] = useState<"internship" | "training">("internship");
   const [mining, setMining] = useState(false);
   const [previewCert, setPreviewCert] = useState<Certificate | null>(null);
+  const [editingName, setEditingName] = useState<string | null>(null);
+  const [editNameValue, setEditNameValue] = useState("");
 
   const fetchCerts = async () => {
     const { data } = await supabase.from("certificates").select("*").order("created_at", { ascending: false });

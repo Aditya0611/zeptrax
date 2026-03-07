@@ -18,6 +18,7 @@ import AdminCertificateVerification from "@/components/admin/AdminCertificateVer
 import AdminOverview from "@/components/admin/AdminOverview";
 import AdminAssignedProjects from "@/components/admin/AdminAssignedProjects";
 import AdminLearningVideos from "@/components/admin/AdminLearningVideos";
+import AdminModules from "@/components/admin/AdminModules";
 
 const tabs = [
   { id: "overview", label: "Dashboard", icon: LayoutDashboard },

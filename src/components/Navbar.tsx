@@ -68,12 +68,6 @@ const Navbar = () => {
               </Link>
             )
           )}
-          {user && (
-            <button onClick={async () => { await (await import("@/integrations/supabase/client")).supabase.auth.signOut(); setOpen(false); }}
-              className="block text-sm font-medium text-muted-foreground hover:text-destructive">
-              Logout
-            </button>
-          )}
         </div>
       )}
     </nav>

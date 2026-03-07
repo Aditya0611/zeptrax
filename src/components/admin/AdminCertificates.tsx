@@ -169,7 +169,25 @@ const AdminCertificates = () => {
             {certs.map((c) => (
               <tr key={c.id} className="border-b border-border/50 hover:bg-muted/30">
                 <td className="py-3 px-2 font-mono text-xs text-primary">{c.certificate_number}</td>
-                <td className="py-3 px-2 text-foreground">{c.recipient_name}</td>
+                <td className="py-3 px-2 text-foreground">
+                  {editingName === c.id ? (
+                    <div className="flex items-center gap-1">
+                      <input value={editNameValue} onChange={(e) => setEditNameValue(e.target.value)} className="px-2 py-1 text-xs rounded bg-muted border border-border text-foreground w-32" />
+                      <button onClick={async () => {
+                        const { error } = await supabase.from("certificates").update({ recipient_name: editNameValue }).eq("id", c.id);
+                        if (error) { toast.error("Update failed"); return; }
+                        setCerts(prev => prev.map(cert => cert.id === c.id ? { ...cert, recipient_name: editNameValue } : cert));
+                        setEditingName(null);
+                        toast.success("Name updated");
+                      }} className="p-1 text-green-400 hover:bg-muted rounded"><Check className="w-3 h-3" /></button>
+                      <button onClick={() => setEditingName(null)} className="p-1 text-destructive hover:bg-muted rounded"><X className="w-3 h-3" /></button>
+                    </div>
+                  ) : (
+                    <span className="flex items-center gap-1">{c.recipient_name}
+                      <button onClick={() => { setEditingName(c.id); setEditNameValue(c.recipient_name); }} className="p-1 text-muted-foreground hover:text-primary"><Pencil className="w-3 h-3" /></button>
+                    </span>
+                  )}
+                </td>
                 <td className="py-3 px-2 text-foreground">{c.course_name}</td>
                 <td className="py-3 px-2">
                   <span className={`px-2 py-1 rounded text-xs font-medium ${c.metadata?.type === "internship" ? "bg-blue-500/20 text-blue-400" : "bg-green-500/20 text-green-400"}`}>

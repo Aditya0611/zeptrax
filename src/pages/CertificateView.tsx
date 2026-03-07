@@ -119,7 +119,7 @@ const CertificateView = () => {
       </div>
 
       {/* Certificate */}
-      <div className="flex justify-center overflow-x-auto px-4 print:px-0">
+      <div className="flex justify-center overflow-x-auto px-4 print:px-0" ref={certRef}>
         <CertificateTemplate
           recipientName={cert.recipient_name}
           courseName={cert.course_name}

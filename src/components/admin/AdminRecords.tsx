@@ -167,51 +167,59 @@ const AdminRecords = () => {
                   )}
                 </td>
                 <td className="py-3 px-2">
-                  {r.status !== "approved" && (
-                    <div className="space-y-2">
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => approveRegistration(r.id)}
-                          disabled={approving === r.id}
-                          className="text-xs px-2 py-1 rounded bg-green-500/20 text-green-400 hover:bg-green-500/30 disabled:opacity-50"
-                        >
-                          {approving === r.id ? "..." : "Auto Approve"}
-                        </button>
-                        <button
-                          onClick={() => setShowManual(p => ({ ...p, [r.id]: !p[r.id] }))}
-                          className="text-xs px-2 py-1 rounded bg-primary/20 text-primary hover:bg-primary/30"
-                        >
-                          <KeyRound className="w-3 h-3 inline mr-1" />Manual
-                        </button>
-                      </div>
-                      {showManual[r.id] && (
-                        <div className="space-y-1">
-                          <input
-                            type="text"
-                            placeholder="Set password"
-                            value={manualCreds[r.id]?.password || ""}
-                            onChange={(e) => setManualCreds(p => ({ ...p, [r.id]: { email: r.email, password: e.target.value } }))}
-                            className="w-full px-2 py-1 text-xs rounded bg-muted border border-border text-foreground"
-                          />
+                  <div className="space-y-2">
+                    {r.status !== "approved" && (
+                      <>
+                        <div className="flex gap-2">
                           <button
-                            onClick={() => approveWithManualCreds(r.id)}
+                            onClick={() => approveRegistration(r.id)}
                             disabled={approving === r.id}
                             className="text-xs px-2 py-1 rounded bg-green-500/20 text-green-400 hover:bg-green-500/30 disabled:opacity-50"
                           >
-                            {approving === r.id ? "Approving..." : "Approve with Password"}
+                            {approving === r.id ? "..." : "Auto Approve"}
+                          </button>
+                          <button
+                            onClick={() => setShowManual(p => ({ ...p, [r.id]: !p[r.id] }))}
+                            className="text-xs px-2 py-1 rounded bg-primary/20 text-primary hover:bg-primary/30"
+                          >
+                            <KeyRound className="w-3 h-3 inline mr-1" />Manual
                           </button>
                         </div>
-                      )}
-                      {r.status !== "rejected" && (
-                        <button
-                          onClick={() => rejectRegistration(r.id)}
-                          className="text-xs px-2 py-1 rounded bg-destructive/20 text-destructive hover:bg-destructive/30"
-                        >
-                          Reject
-                        </button>
-                      )}
-                    </div>
-                  )}
+                        {showManual[r.id] && (
+                          <div className="space-y-1">
+                            <input
+                              type="text"
+                              placeholder="Set password"
+                              value={manualCreds[r.id]?.password || ""}
+                              onChange={(e) => setManualCreds(p => ({ ...p, [r.id]: { email: r.email, password: e.target.value } }))}
+                              className="w-full px-2 py-1 text-xs rounded bg-muted border border-border text-foreground"
+                            />
+                            <button
+                              onClick={() => approveWithManualCreds(r.id)}
+                              disabled={approving === r.id}
+                              className="text-xs px-2 py-1 rounded bg-green-500/20 text-green-400 hover:bg-green-500/30 disabled:opacity-50"
+                            >
+                              {approving === r.id ? "Approving..." : "Approve with Password"}
+                            </button>
+                          </div>
+                        )}
+                        {r.status !== "rejected" && (
+                          <button
+                            onClick={() => rejectRegistration(r.id)}
+                            className="text-xs px-2 py-1 rounded bg-destructive/20 text-destructive hover:bg-destructive/30"
+                          >
+                            Reject
+                          </button>
+                        )}
+                      </>
+                    )}
+                    <button
+                      onClick={() => removeRegistration(r.id)}
+                      className="text-xs px-2 py-1 rounded bg-destructive/20 text-destructive hover:bg-destructive/30"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

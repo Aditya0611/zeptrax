@@ -23,6 +23,7 @@ import AdminModules from "@/components/admin/AdminModules";
 const tabs = [
   { id: "overview", label: "Dashboard", icon: LayoutDashboard },
   { id: "records", label: "Records", icon: FileText },
+  { id: "modules", label: "Modules", icon: BookOpen },
   { id: "assigned-projects", label: "Assign Projects", icon: FolderOpen },
   { id: "learning-videos", label: "Learning Videos", icon: Video },
   { id: "teams", label: "Teams", icon: Users },

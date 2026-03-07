@@ -91,6 +91,14 @@ const AdminRecords = () => {
     toast.success("Registration rejected");
   };
 
+  const removeRegistration = async (id: string) => {
+    if (!confirm("Are you sure you want to permanently remove this record?")) return;
+    const { error } = await supabase.from("registrations").delete().eq("id", id);
+    if (error) { toast.error("Failed to remove record"); return; }
+    setRecords((prev) => prev.filter((r) => r.id !== id));
+    toast.success("Record removed");
+  };
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard!");

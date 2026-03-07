@@ -9,6 +9,7 @@ import {
 import Navbar from "@/components/Navbar";
 import UserAssignedProjects from "@/components/user/UserAssignedProjects";
 import UserLearningVideos from "@/components/user/UserLearningVideos";
+import UserModules from "@/components/user/UserModules";
 
 const tabs = [
   { id: "overview", label: "Dashboard", icon: LayoutDashboard },

@@ -54,6 +54,7 @@ const UserDashboard = () => {
 
   const renderContent = () => {
     switch (activeTab) {
+      case "modules": return <UserModules userId={user.id} />;
       case "projects": return <UserAssignedProjects userId={user.id} />;
       case "videos": return <UserLearningVideos userId={user.id} />;
       default:

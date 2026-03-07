@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import {
   LayoutDashboard, Users, Award, FileText, Star, UserCheck,
-  Mail, ShieldCheck, LogOut, Menu, X, ChevronRight, FolderOpen, Video
+  Mail, ShieldCheck, LogOut, Menu, X, ChevronRight, FolderOpen, Video, BookOpen
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import AdminRecords from "@/components/admin/AdminRecords";
@@ -18,10 +18,12 @@ import AdminCertificateVerification from "@/components/admin/AdminCertificateVer
 import AdminOverview from "@/components/admin/AdminOverview";
 import AdminAssignedProjects from "@/components/admin/AdminAssignedProjects";
 import AdminLearningVideos from "@/components/admin/AdminLearningVideos";
+import AdminModules from "@/components/admin/AdminModules";
 
 const tabs = [
   { id: "overview", label: "Dashboard", icon: LayoutDashboard },
   { id: "records", label: "Records", icon: FileText },
+  { id: "modules", label: "Modules", icon: BookOpen },
   { id: "assigned-projects", label: "Assign Projects", icon: FolderOpen },
   { id: "learning-videos", label: "Learning Videos", icon: Video },
   { id: "teams", label: "Teams", icon: Users },
@@ -60,6 +62,7 @@ const AdminDashboard = () => {
     switch (activeTab) {
       case "overview": return <AdminOverview />;
       case "records": return <AdminRecords />;
+      case "modules": return <AdminModules />;
       case "assigned-projects": return <AdminAssignedProjects />;
       case "learning-videos": return <AdminLearningVideos />;
       case "teams": return <AdminTeams />;

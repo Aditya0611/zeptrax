@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { verifyBlock } from "@/lib/blockchain";
-import { ShieldCheck, ShieldX, Download } from "lucide-react";
+import { ShieldCheck, ShieldX, Download, FileDown } from "lucide-react";
 import CertificateTemplate from "@/components/CertificateTemplate";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { toast } from "sonner";
 
 const CertificateView = () => {
   const { certNumber } = useParams<{ certNumber: string }>();
@@ -44,7 +47,21 @@ const CertificateView = () => {
     fetch();
   }, [certNumber]);
 
+  const certRef = useRef<HTMLDivElement>(null);
   const handlePrint = () => window.print();
+
+  const handleDownloadPDF = async () => {
+    if (!certRef.current) return;
+    try {
+      const canvas = await html2canvas(certRef.current, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width, canvas.height] });
+      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+      pdf.save(`${cert?.certificate_number || "certificate"}.pdf`);
+    } catch {
+      toast.error("Failed to generate PDF");
+    }
+  };
 
   if (loading) {
     return (
@@ -84,17 +101,25 @@ const CertificateView = () => {
             </p>
             <p className="text-xs text-gray-500">Certificate ID: {cert.certificate_number}</p>
           </div>
-          <button
-            onClick={handlePrint}
-            className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 print:hidden"
-          >
-            <Download className="w-4 h-4" /> Print / Download
-          </button>
+          <div className="ml-auto flex gap-2 print:hidden">
+            <button
+              onClick={handleDownloadPDF}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-600 text-white text-sm hover:bg-green-700"
+            >
+              <FileDown className="w-4 h-4" /> Download PDF
+            </button>
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700"
+            >
+              <Download className="w-4 h-4" /> Print
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Certificate */}
-      <div className="flex justify-center overflow-x-auto px-4 print:px-0">
+      <div className="flex justify-center overflow-x-auto px-4 print:px-0" ref={certRef}>
         <CertificateTemplate
           recipientName={cert.recipient_name}
           courseName={cert.course_name}

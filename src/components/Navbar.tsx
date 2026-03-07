@@ -10,8 +10,8 @@ const Navbar = () => {
   const { user, isAdmin } = useAuth();
 
   const links = [
-    { href: "/register", label: "Register Now" },
-    { href: "/auth", label: "Login" },
+    ...(!user ? [{ href: "/register", label: "Register Now" }] : []),
+    ...(!user ? [{ href: "/auth", label: "Login" }] : []),
     ...(user && !isAdmin ? [{ href: "/dashboard", label: "My Dashboard" }] : []),
     ...(isAdmin ? [{ href: "/admin", label: "Admin Dashboard" }] : []),
     { href: "https://chat.whatsapp.com/EAJYjQDwsoYDyBDNmmGrLE", label: "Join Community", external: true },
@@ -45,12 +45,6 @@ const Navbar = () => {
               </Link>
             )
           )}
-          {user && (
-            <button onClick={async () => { await (await import("@/integrations/supabase/client")).supabase.auth.signOut(); }}
-              className="text-sm font-medium text-muted-foreground hover:text-destructive transition-colors">
-              Logout
-            </button>
-          )}
         </div>
 
         <button onClick={() => setOpen(!open)} className="md:hidden text-foreground">
@@ -73,12 +67,6 @@ const Navbar = () => {
                 {l.label}
               </Link>
             )
-          )}
-          {user && (
-            <button onClick={async () => { await (await import("@/integrations/supabase/client")).supabase.auth.signOut(); setOpen(false); }}
-              className="block text-sm font-medium text-muted-foreground hover:text-destructive">
-              Logout
-            </button>
           )}
         </div>
       )}

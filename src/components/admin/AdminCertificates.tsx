@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Plus, Shield, ExternalLink, Copy, Eye } from "lucide-react";
+import { Plus, Shield, ExternalLink, Copy, Eye, Pencil, Check, X } from "lucide-react";
 import { mineBlock, generateCertificateNumber } from "@/lib/blockchain";
 import CertificateTemplate from "@/components/CertificateTemplate";
 

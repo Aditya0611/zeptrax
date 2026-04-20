@@ -18,12 +18,17 @@ const tabs = [
   { id: "videos", label: "Learning Videos", icon: Video },
 ];
 
+interface Profile {
+  full_name: string | null;
+  email: string | null;
+}
+
 const UserDashboard = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     if (!loading && !user) {

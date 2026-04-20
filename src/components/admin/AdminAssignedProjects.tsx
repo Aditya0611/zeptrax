@@ -9,8 +9,18 @@ interface UserOption {
   email: string;
 }
 
+interface Project {
+  id: string;
+  user_id: string;
+  title: string;
+  description: string | null;
+  file_url: string | null;
+  file_name: string | null;
+  created_at: string;
+}
+
 const AdminAssignedProjects = () => {
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [users, setUsers] = useState<UserOption[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);

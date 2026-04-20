@@ -9,8 +9,19 @@ interface UserOption {
   email: string;
 }
 
+interface LearningVideo {
+  id: string;
+  user_id: string;
+  title: string;
+  description: string | null;
+  video_url: string;
+  thumbnail_url: string | null;
+  duration: string | null;
+  created_at: string;
+}
+
 const AdminLearningVideos = () => {
-  const [videos, setVideos] = useState<any[]>([]);
+  const [videos, setVideos] = useState<LearningVideo[]>([]);
   const [users, setUsers] = useState<UserOption[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);

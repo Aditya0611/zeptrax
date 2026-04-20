@@ -15,7 +15,7 @@ interface Certificate {
   previous_hash: string | null;
   block_index: number | null;
   status: string | null;
-  metadata: any;
+  metadata: { type?: "internship" | "training" } | null;
   created_at: string;
 }
 
@@ -71,8 +71,8 @@ const AdminCertificates = () => {
       toast.success(`Certificate ${certNumber} issued with blockchain hash!`);
       setRecipientName(""); setCourseName(""); setShowForm(false);
       fetchCerts();
-    } catch (err: any) {
-      toast.error(err.message || "Failed to issue certificate");
+    } catch (err: unknown) {
+      toast.error((err as Error).message || "Failed to issue certificate");
     } finally {
       setMining(false);
     }

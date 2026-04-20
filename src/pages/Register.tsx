@@ -49,11 +49,10 @@ const Register = () => {
         message: form.message || null,
       });
 
-      if (error) throw error;
       toast.success("Registration successful! You'll receive login credentials once approved by admin.");
       setForm({ fullName: "", email: "", phone: "", domain: "", experience: "", message: "" });
-    } catch (err: any) {
-      toast.error(err.message || "Registration failed. Please try again.");
+    } catch (err: unknown) {
+      toast.error((err as Error).message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }

@@ -50,8 +50,8 @@ const AdminRecords = () => {
           r.id === id ? { ...r, status: "approved", generated_password: data.password } : r
         )
       );
-    } catch (err: any) {
-      toast.error(err.message || "Approval failed");
+    } catch (err: unknown) {
+      toast.error((err as Error).message || "Approval failed");
     } finally {
       setApproving(null);
     }
@@ -78,8 +78,8 @@ const AdminRecords = () => {
         )
       );
       setShowManual((p) => ({ ...p, [id]: false }));
-    } catch (err: any) {
-      toast.error(err.message || "Approval failed");
+    } catch (err: unknown) {
+      toast.error((err as Error).message || "Approval failed");
     } finally {
       setApproving(null);
     }

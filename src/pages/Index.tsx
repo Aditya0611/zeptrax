@@ -4,6 +4,7 @@ import BannerSection from "@/components/BannerSection";
 import AIAgentsSection from "@/components/AIAgentsSection";
 import DomainsSection from "@/components/DomainsSection";
 import ServicesSection from "@/components/ServicesSection";
+import TrainingOverview from "@/components/TrainingOverview";
 import PricingSection from "@/components/PricingSection";
 import PartnersSection from "@/components/PartnersSection";
 import Footer from "@/components/Footer";
@@ -19,6 +20,7 @@ const Index = () => {
       <AIAgentsSection />
       <DomainsSection />
       <ServicesSection />
+      <TrainingOverview />
       <PricingSection />
       <PartnersSection />
       <Footer />

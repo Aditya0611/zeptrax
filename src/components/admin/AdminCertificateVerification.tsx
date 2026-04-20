@@ -4,12 +4,25 @@ import { toast } from "sonner";
 import { ShieldCheck, ShieldX, Search } from "lucide-react";
 import { verifyBlock } from "@/lib/blockchain";
 
+interface Certificate {
+  id: string;
+  certificate_number: string;
+  recipient_name: string;
+  course_name: string;
+  issue_date: string;
+  blockchain_hash: string | null;
+  previous_hash: string | null;
+  block_index: number | null;
+  nonce: number | null;
+  created_at: string;
+}
+
 const AdminCertificateVerification = () => {
   const [certNumber, setCertNumber] = useState("");
   const [verifying, setVerifying] = useState(false);
   const [result, setResult] = useState<{
     valid: boolean;
-    certificate?: any;
+    certificate?: Certificate;
     blockchainValid?: boolean;
   } | null>(null);
 

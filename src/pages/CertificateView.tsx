@@ -8,9 +8,23 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { toast } from "sonner";
 
+interface Certificate {
+  id: string;
+  certificate_number: string;
+  recipient_name: string;
+  course_name: string;
+  issue_date: string;
+  blockchain_hash: string | null;
+  previous_hash: string | null;
+  block_index: number | null;
+  nonce: number | null;
+  created_at: string;
+  metadata: { type?: "internship" | "training" } | null;
+}
+
 const CertificateView = () => {
   const { certNumber } = useParams<{ certNumber: string }>();
-  const [cert, setCert] = useState<any>(null);
+  const [cert, setCert] = useState<Certificate | null>(null);
   const [loading, setLoading] = useState(true);
   const [blockchainValid, setBlockchainValid] = useState(false);
 
@@ -83,7 +97,7 @@ const CertificateView = () => {
     );
   }
 
-  const certType = (cert.metadata as any)?.type || "training";
+  const certType = cert.metadata?.type || "training";
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">

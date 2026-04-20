@@ -33,8 +33,8 @@ const Auth = () => {
         .eq("role", "admin")
         .maybeSingle();
       navigate(roleData ? "/admin" : "/dashboard");
-    } catch (err: any) {
-      toast.error(err.message || "Login failed");
+    } catch (err: unknown) {
+      toast.error((err as Error).message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -53,8 +53,8 @@ const Auth = () => {
       });
       if (error) throw error;
       toast.success("Password reset link sent to your email!");
-    } catch (err: any) {
-      toast.error(err.message || "Failed to send reset link");
+    } catch (err: unknown) {
+      toast.error((err as Error).message || "Failed to send reset link");
     } finally {
       setLoading(false);
     }

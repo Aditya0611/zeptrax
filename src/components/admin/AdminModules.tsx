@@ -59,12 +59,12 @@ const AdminModules = () => {
 
   const fetchAll = async () => {
     const [docsRes, modulesRes, usersRes] = await Promise.all([
-      supabase.from("module_documents" as any).select("*").order("created_at", { ascending: false }),
-      supabase.from("user_modules" as any).select("*"),
+      supabase.from("module_documents").select("*").order("created_at", { ascending: false }),
+      supabase.from("user_modules").select("*"),
       supabase.from("registrations").select("id, email, full_name, user_id").eq("status", "approved"),
     ]);
-    setDocuments((docsRes.data as unknown as ModuleDocument[]) || []);
-    setUserModules((modulesRes.data as unknown as UserModule[]) || []);
+    setDocuments((docsRes.data as ModuleDocument[]) || []);
+    setUserModules((modulesRes.data as UserModule[]) || []);
     setApprovedUsers((usersRes.data as ApprovedUser[]) || []);
     setLoading(false);
   };
@@ -72,7 +72,7 @@ const AdminModules = () => {
   const addDocument = async () => {
     if (!docTitle.trim()) { toast.error("Title is required"); return; }
     setUploading(true);
-    const { error } = await supabase.from("module_documents" as any).insert({
+    const { error } = await supabase.from("module_documents").insert({
       module_level: activeLevel,
       title: docTitle.trim(),
       description: docDesc.trim() || null,
@@ -90,14 +90,14 @@ const AdminModules = () => {
 
   const removeDocument = async (id: string) => {
     if (!confirm("Remove this document?")) return;
-    await supabase.from("module_documents" as any).delete().eq("id", id);
+    await supabase.from("module_documents").delete().eq("id", id);
     setDocuments(prev => prev.filter(d => d.id !== id));
     toast.success("Document removed");
   };
 
   const assignModule = async () => {
     if (!selectedUserId) { toast.error("Select a user"); return; }
-    const { error } = await supabase.from("user_modules" as any).insert({
+    const { error } = await supabase.from("user_modules").insert({
       user_id: selectedUserId,
       module_level: activeLevel,
     });
@@ -112,7 +112,7 @@ const AdminModules = () => {
   };
 
   const revokeModule = async (id: string) => {
-    await supabase.from("user_modules" as any).delete().eq("id", id);
+    await supabase.from("user_modules").delete().eq("id", id);
     setUserModules(prev => prev.filter(m => m.id !== id));
     toast.success("Access revoked");
   };

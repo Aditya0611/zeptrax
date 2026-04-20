@@ -27,11 +27,11 @@ const UserModules = ({ userId }: { userId: string }) => {
   useEffect(() => {
     const fetch = async () => {
       const [modulesRes, docsRes] = await Promise.all([
-        supabase.from("user_modules" as any).select("module_level").eq("user_id", userId),
-        supabase.from("module_documents" as any).select("*").order("created_at", { ascending: false }),
+        supabase.from("user_modules").select("module_level").eq("user_id", userId),
+        supabase.from("module_documents").select("*").order("created_at", { ascending: false }),
       ]);
-      setAccessLevels((modulesRes.data || []).map((m: any) => m.module_level));
-      setDocuments((docsRes.data as unknown as ModuleDocument[]) || []);
+      setAccessLevels((modulesRes.data || []).map((m: { module_level: string }) => m.module_level));
+      setDocuments((docsRes.data as ModuleDocument[]) || []);
       setLoading(false);
     };
     fetch();

@@ -21,7 +21,7 @@ const Navbar = () => {
     ...(!user ? [{ href: "/auth", label: "Login" }] : []),
     ...(user && !isAdmin ? [{ href: "/dashboard", label: "My Dashboard" }] : []),
     ...(isAdmin ? [{ href: "/admin", label: "Admin Dashboard" }] : []),
-    { href: "https://chat.whatsapp.com/EAJYjQDwsoYDyBDNmmGrLE", label: "Join Community", external: true },
+    { href: "https://chat.whatsapp.com/F6PSItyAlfV66Zvt6bwCVL", label: "Join Community", external: true },
   ];
 
   return (

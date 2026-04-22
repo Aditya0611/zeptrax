@@ -21,9 +21,9 @@ interface TrainingLevelProps {
   modules: Module[];
   projects: Project[];
   schedule: {
-    modules: string;
+    modules: number | string;
     hours: string;
-    months: string;
+    duration: string;
   };
   skills: string[];
 }
@@ -76,7 +76,7 @@ const TrainingLevel: React.FC<TrainingLevelProps> = ({
           >
             <div className="sched-cell"><div className="sched-val">{schedule.modules}</div><div className="sched-lbl">Modules</div></div>
             <div className="sched-cell"><div className="sched-val">{schedule.hours}</div><div className="sched-lbl">Training</div></div>
-            <div className="sched-cell"><div className="sched-val">{schedule.months}</div><div className="sched-lbl">Duration</div></div>
+            <div className="sched-cell"><div className="sched-val">{schedule.duration}</div><div className="sched-lbl">Duration</div></div>
           </motion.div>
         </div>
         <div className="level-header-right">

@@ -21,10 +21,11 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename="/ai-program">
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/index.html" element={<Index />} />
             <Route path="/training" element={<Training />} />
             <Route path="/register" element={<Register />} />
             <Route path="/auth" element={<Auth />} />
